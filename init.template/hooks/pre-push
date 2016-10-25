@@ -3,6 +3,7 @@
 # https://github.com/toddmowen/version-check-git-hook
 
 base="origin/master"
+version_file="version.sbt"
 
 if ! git show-ref --quiet "$base"
 then
@@ -10,9 +11,9 @@ then
 	exit 1
 fi
 
-if ! git show "$base:version.sbt" >/dev/null 2>&1
+if ! git show "$base:$version_file" >/dev/null 2>&1
 then
-	echo ".git/hooks/pre-push is misconfigured: file 'version.sbt' does not exist in '$base'" >&2
+	echo ".git/hooks/pre-push is misconfigured: file '$version_file' does not exist in '$base'" >&2
 	exit 1
 fi
 
@@ -25,9 +26,10 @@ while read local_ref local_sha remote_ref remote_sha
 do
 	if [[ "$local_sha" != $z40 ]]
 	then
-		if git diff --quiet "$local_sha" "$base" -- :/version.sbt
+		# merely check whether the version file has been modified (a simple but naive test)
+		if git diff --quiet "$local_sha" "$base" -- ":/$version_file"
 		then
-			echo "warning: '$local_ref' includes no update to version.sbt (relative to base '$base')" >&2
+			echo "warning: '$local_ref' includes no update to '$version_file' (relative to base '$base')" >&2
 			read -p'Really push? [y/N]: ' answer </dev/tty
 			[[ "$answer" == "y" || "$answer" == "Y" ]] || exit 1
 		fi
