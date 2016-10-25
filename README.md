@@ -21,7 +21,8 @@ Usage
 
 To add this hook to your projects:
 
-    git config --global init.templatedir `pwd`/init.directory
+    # in the checkout directory of version-check-git-hook
+    git config --global init.templatedir `pwd`/init.template
 
     # in each existing repo (no existing hooks will be overwritten)
     git init
