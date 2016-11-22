@@ -10,7 +10,7 @@ when you finish implementing your feature and type `git push`.
 
 You will probably need to customise the script to fit your particular environment.
 The version of the script included here supports the conventions for
-[CommBank](https://github.com/CommBank] scala projects, namely:
+[CommBank](https://github.com/CommBank) scala projects, namely:
 
   * All pull requests are made against `origin/master`
   * The file `version.sbt` contains the version string, and *no other settings that might change*
